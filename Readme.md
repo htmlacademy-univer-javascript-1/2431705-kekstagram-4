@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Павел Юдин](https://up.htmlacademy.ru/univer-js1/4/user/2431705).
-* Наставник: Геннадий Максимов.
+* Наставник: [Геннадий Максимов](https://htmlacademy.ru/profile/gennadiy).
 
 ---
 
