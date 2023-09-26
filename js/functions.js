@@ -1,24 +1,18 @@
-function checkLengthString(str, length)
-{
-  return str.length >= Number(length);
-}
-function isPalindrome(str)
+const checkLengthString =(str, length) =>
+  str.length >= Number(length);
+const isPalindrome = (str) =>
 {
   str  = String(str).replaceAll(' ', '').toLowerCase();
   const strReverse = str.split('').reverse().join('');
   return str === strReverse ;
-}
+};
 
-function getNumberString(str)
+const getNumberString = (str) =>
 {
   str = str.toString();
-  const array =  Array.from(str.split('')).filter((char) => !isNaN(parseInt(char)));
-  if(array.length > 0){
-    return  Number(array.join(''));
-  }
-  else{ return  NaN; }
-
-}
+  const array =  Array.from(str.split('')).filter((char) => !isNaN(parseInt(char, 10)));
+  return array.length > 0 ? +(array.join('')) : NaN;
+};
 const commandArray = {
   'isPalindrome' : ['Кекс', 'топо', 'Лёша на полке клопа нашёл '],
   'getNumberString' : [6, '2023 год', 'ECMAScript 2022', '1 кефир, 0.5 батона', 'агент 007', 'а я томат', -1, 9.5],
@@ -42,7 +36,8 @@ function processElements(command, elements) {
     }
   });
 }
-
+let x = 3 /0 ? 3/1:4;
+console.log(x);
 processElements('isPalindrome', commandArray['isPalindrome']);
 processElements('checkLengthString', commandArray['checkLengthString']);
 processElements('getNumberString', commandArray['getNumberString']);
