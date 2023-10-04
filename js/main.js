@@ -38,7 +38,7 @@ const constructComments =(quantity, getIds) =>{
   }
   return comments;
 };
-const getDescriptionPhoto = () =>{
+const getDescriptionPhotos = () =>{
   const photos = [];
   const getIds = getMessageId();
   for(let id = 1; id <= 25; id++)
@@ -53,4 +53,4 @@ const getDescriptionPhoto = () =>{
   }
   return photos;
 };
-console.log(getDescriptionPhoto());
+getDescriptionPhotos();
