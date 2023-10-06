@@ -1,10 +1,14 @@
-const message = ['', 'Всё отлично!В целом всё неплохо. Но не всё.',
+const MESSAGES = ['', 'Всё отлично!В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
-const names= ['Aboba', 'MegaGrib', 'Nagibator3000', 'Artem'];
-
+const NAMES= ['Aboba', 'MegaGrib', 'Nagibator3000', 'Artem'];
+const PHOTOSCOUNT = 25;
+const MAXCOMMENTSCOUNT = 30;
+const MINLIKESCOUNT = 15;
+const MAXLIKESCOUNT = 200;
+const MAXNUMAVATAR = 6;
 const getRandomNumberFromInterval = (start, end)=>
   Math.ceil(Math.random() * (end - start + 1)) + (start - 1);
 
@@ -27,13 +31,13 @@ const getMessageId = () => {
 const constructComments =(quantity, getIds) =>{
   const comments = [];
   for(let i = 0; i < quantity; i++){
-    const avatarNum = getRandomNumberFromInterval(1, 6);
-    const index = getRandomNumberFromInterval(0, 5);
+    const avatarNum = getRandomNumberFromInterval(1, MAXNUMAVATAR);
+    const mesIndex = getRandomNumberFromInterval(0, MESSAGES.length - 1);
     comments.push({
       id: getIds(),
       avatar: `img/avatar-${  avatarNum  }.svg`,
-      message: message[index],
-      name: names[index]
+      message:  MESSAGES[mesIndex],
+      name: NAMES[mesIndex]
     });
   }
   return comments;
@@ -41,14 +45,13 @@ const constructComments =(quantity, getIds) =>{
 const getDescriptionPhotos = () =>{
   const photos = [];
   const getIds = getMessageId();
-  for(let id = 1; id <= 25; id++)
-  {
+  for(let id = 1; id <= PHOTOSCOUNT; id++){
     photos.push({
       id: id,
       url :`photos/${  id  }.jpg`,
       description : 'Мое придуманное описание',
-      likes: getRandomNumberFromInterval(15, 200),
-      comments: constructComments(getRandomNumberFromInterval(0, 30), getIds)
+      likes: getRandomNumberFromInterval(MINLIKESCOUNT, MAXLIKESCOUNT),
+      comments: constructComments(getRandomNumberFromInterval(0, MAXCOMMENTSCOUNT), getIds)
     });
   }
   return photos;
