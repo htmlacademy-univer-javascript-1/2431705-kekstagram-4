@@ -22,4 +22,4 @@ const getThubnails = () =>
     comments: constructComments(getRandomNumberFromInterval(0, MAX_COMMENTS_COUNT), id)
   }));
 
-console.log(getThubnails());
+getThubnails();
