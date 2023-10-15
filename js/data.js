@@ -10,4 +10,4 @@ const LikesCount = {
   MIN: 15,
   MAX: 200,
 };
-export  {MESSAGES, NAMES, PHOTOS_COUNT, MAX_COMMENTS_COUNT, LikesCount}; 
+export  {MESSAGES, NAMES, PHOTOS_COUNT, MAX_COMMENTS_COUNT, LikesCount};
