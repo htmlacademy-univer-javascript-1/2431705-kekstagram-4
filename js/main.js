@@ -1,4 +1,3 @@
-import {getThubnails} from './photo-descriptions.js';
+import {getThubnails} from './data.js';
 
 getThubnails();
-
