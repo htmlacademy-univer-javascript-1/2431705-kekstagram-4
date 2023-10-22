@@ -12,7 +12,7 @@ const LikesCount = {
   MAX: 200,
 };
 
-const constructComments = (quantity, id) => new Array(quantity).fill('').map((_, messageId) => {
+const comments = (quantity, id) => new Array(quantity).fill('').map((_, messageId) => {
   const mesIndex = getRandomNumberFromInterval(0, MESSAGES.length - 1);
 
   return {
@@ -23,12 +23,12 @@ const constructComments = (quantity, id) => new Array(quantity).fill('').map((_,
   };
 });
 
-export const getThubnails = () =>
+export const photoDescriptions = () =>
 
   new Array(PHOTOS_COUNT).fill('').map((_, id) => ({
     id: id,
     url :`photos/${id}.jpg`,
     description : 'Мое придуманное описание',
     likes: getRandomNumberFromInterval(LikesCount.MIN, LikesCount.MAX),
-    comments: constructComments(getRandomNumberFromInterval(0, MAX_COMMENTS_COUNT), id)
+    comments: comments(getRandomNumberFromInterval(0, MAX_COMMENTS_COUNT), id)
   }));
