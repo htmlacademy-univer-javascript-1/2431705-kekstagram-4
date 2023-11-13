@@ -5,7 +5,6 @@ const MESSAGES = ['', 'Всё отлично!В целом всё неплохо
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 const NAMES= ['Aboba', 'MegaGrib', 'Nagibator3000', 'Artem', 'Ghg', 'top_php_progger'];
-const PHOTOS_COUNT = 25;
 const MAX_COMMENTS_COUNT = 30;
 const LikesCount = {
   MIN: 15,
@@ -23,8 +22,8 @@ const getComments = (quantity, id) => new Array(quantity).fill('').map((_, messa
   };
 });
 
-export const getPhotoDescriptions = () =>
-  new Array(PHOTOS_COUNT).fill('').map((_, id) => ({
+export const getPhotoDescriptions = (photosCount) =>
+  new Array(photosCount).fill('').map((_, id) => ({
     id: id,
     url :`photos/${id}.jpg`,
     description : 'Мое придуманное описание',
