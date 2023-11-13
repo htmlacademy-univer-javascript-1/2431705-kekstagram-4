@@ -1,4 +1,4 @@
-import {getPhotoDescriptions} from './data.js';
+let photos = null;
 
 const NULL_INDEX = 0;
 const templatePicture = document.querySelector('#picture').content;
@@ -14,9 +14,13 @@ const getPicture = (photo) =>{
   return picture;
 };
 
-const photos = getPhotoDescriptions();
-photos.forEach((photo, index) => {
-  if(index > NULL_INDEX){
-    pictures.appendChild(getPicture(photo));
+export const thumbnailsRender = (data) =>{
+  photos = data.slice();
+  if(photos){
+    photos.forEach((photo, index) => {
+      if(index > NULL_INDEX){
+        pictures.appendChild(getPicture(photo));
+      }
+    });
   }
-});
+};
