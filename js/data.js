@@ -22,11 +22,13 @@ const getComments = (quantity, id) => new Array(quantity).fill('').map((_, messa
   };
 });
 
-export const getPhotoDescriptions = (photosCount) =>
-  new Array(photosCount).fill('').map((_, id) => ({
+export const getPhotoDescriptions = (photosCount) => new Array(photosCount).fill('').map((_, index) => {
+  const id = index + 1;
+  return {
     id: id,
-    url :`photos/${id}.jpg`,
-    description : 'Мое придуманное описание',
+    url: `photos/${id}.jpg`,
+    description: 'Мое придуманное описание',
     likes: getRandomNumberFromInterval(LikesCount.MIN, LikesCount.MAX),
     comments: getComments(getRandomNumberFromInterval(0, MAX_COMMENTS_COUNT), id)
-  }));
+  };
+});
