@@ -47,7 +47,7 @@ const constructBigPicture = (picture, photos) =>{
 };
 
 
-export const showBigPicture = (photos) => {
+export const renderBigPicture = (photos) => {
   const pictures = document.querySelectorAll('.picture');
   for (const picture of pictures){
     picture.onclick = () =>{
