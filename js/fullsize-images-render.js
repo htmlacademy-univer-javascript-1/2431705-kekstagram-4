@@ -3,7 +3,7 @@ const commentsCount = bigPicture.querySelector('.comments-count');
 const likesCount = bigPicture.querySelector('.likes-count');
 const bigImage = bigPicture.querySelector('.big-picture__img img');
 const description = bigPicture.querySelector('.social__caption');
-const cancelButton = bigPicture.querySelector('.big-picture__cancel');
+const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
 const createComment = (avatar, name, text) => `<li class="social__comment">
     <img
@@ -21,10 +21,10 @@ const createCommentsBlock = (comments) =>{
   commentsBlock.insertAdjacentHTML('afterbegin', comments.map((comment) => createComment(comment.avatar, comment.name, comment.message)).join(''));           // Array(comments).map
 };
 
-const hideModal = () => {
+function hideModal () {
   document.body.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
-};
+}
 
 document.onkeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -32,7 +32,7 @@ document.onkeydown = (evt) => {
   }
 };
 
-cancelButton.onclick = hideModal;
+closeButton.onclick = hideModal;
 
 const constructBigPicture = (picture, photos) =>{
   const likes = picture.querySelector('.picture__likes');
