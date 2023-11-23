@@ -46,7 +46,7 @@ const constructBigPicture = (picture, photoInfo, image) =>{
   createCommentsBlock(photoInfo.comments, bigPicture);
 };
 
-const onPictureClick = (picture, photoInfo, image) => {
+const viewBigPicture = (picture, photoInfo, image) => {
   constructBigPicture(picture, photoInfo, image);
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.social__comment-count').hidden = true;
@@ -61,7 +61,7 @@ export const renderBigPicture = (photos) => {
   pictures.forEach((picture) => {
     const image = picture.querySelector('.picture__img');
     const photoInfo = photos.filter((photo) => `/${photo.url}` === new URL(image.src).pathname)[0];
-    picture.addEventListener('click', () => onPictureClick(picture, photoInfo, image));
+    picture.addEventListener('click',  () => viewBigPicture(picture, photoInfo, image));
   });
 };
 
