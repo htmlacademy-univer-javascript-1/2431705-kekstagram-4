@@ -21,11 +21,6 @@ const createCommentsBlock = (comments) =>{
   commentsBlock.insertAdjacentHTML('afterbegin', comments.map((comment) => createComment(comment.avatar, comment.name, comment.message)).join(''));           // Array(comments).map
 };
 
-function hideModal () {
-  document.body.classList.remove('modal-open');
-  bigPicture.classList.add('hidden');
-}
-
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
     hideModal();
@@ -35,6 +30,14 @@ const onDocumentKeydown = (evt) => {
 const onCloseButtonClick = () => {
   hideModal();
 };
+
+function hideModal () {
+  document.body.classList.remove('modal-open');
+  bigPicture.classList.add('hidden');
+  closeButton.removeEventListener('click', onCloseButtonClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
+
+}
 
 const constructBigPicture = (picture, photoInfo, image) =>{
   bigImage.src = image.src;
