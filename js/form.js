@@ -1,4 +1,6 @@
 import {isEscapeKey, isRightString} from './util.js';
+import{renderScaleButtons, destroyScaleButtons} from './image-scale.js';
+
 
 const uploadButton = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
@@ -48,6 +50,7 @@ function closeOverlay () {
   overlay.classList.add('hidden');
   document.removeEventListener('keydown', onEscapeKeydown);
   document.removeEventListener('keydown', onEscapeKeydown);
+  destroyScaleButtons();
   form.reset();
 }
 
@@ -70,6 +73,7 @@ const openOverlay = () => {
   document.body.classList.add('modal-open');
   cancelButton.addEventListener('click', onClickCancelButton);
   document.addEventListener('keydown', onEscapeKeydown);
+  renderScaleButtons();
   comments.onkeydown = (evt) => onFocusPreventClose(evt);
   hashtags.onkeydown = (evt) => onFocusPreventClose(evt);
 };
