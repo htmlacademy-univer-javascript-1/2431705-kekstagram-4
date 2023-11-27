@@ -1,9 +1,9 @@
 import {getPhotoDescriptions} from './data.js';
 import {thumbnailsRender} from './thumbnails.js';
-import {showBigPicture} from './full-size-images.js';
+import {renderBigPicture} from './fullsize-images-render.js';
 
 const PHOTOS_COUNT = 25;
 
 const photos = getPhotoDescriptions(PHOTOS_COUNT);
 thumbnailsRender(photos);
-showBigPicture(photos);
+renderBigPicture(photos);
