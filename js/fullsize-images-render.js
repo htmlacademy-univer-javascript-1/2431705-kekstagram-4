@@ -8,8 +8,7 @@ const nowComments = bigPicture.querySelector('.openedComments-count');
 const commentsBlock = bigPicture.querySelector('.social__comments');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const LIMIT = 5;
-let comments;
-let commentsCounter;
+let photos;
 
 const createComment = (avatar, name, text) => `<li class="social__comment">
     <img
@@ -22,6 +21,9 @@ const createComment = (avatar, name, text) => `<li class="social__comment">
 
 
 const uploadComments = () => {
+  const id = commentsBlock.dataset.photoId;
+  const comments = photos.filter((photo) => photo.id === Number(id))[0].comments;
+  let commentsCounter  = Number(nowComments.textContent);
   const start = commentsCounter - LIMIT;
   if(commentsCounter >= comments.length){
     commentsCounter = comments.length;
@@ -36,13 +38,15 @@ const uploadComments = () => {
 };
 
 const onUploadMoreButtonClick = () =>{
+  let commentsCounter = Number(nowComments.textContent);
   commentsCounter += LIMIT;
+  nowComments.textContent = commentsCounter;
   uploadComments();
 };
 
 const createCommentsBlock = () =>{
   commentsBlock.innerHTML = '';
-  commentsCounter = LIMIT;
+  nowComments.textContent = LIMIT;
   uploadComments();
   uploadMoreButton.addEventListener('click', onUploadMoreButtonClick);
 };
@@ -60,8 +64,6 @@ const onCloseButtonClick = () => {
 const destroyCommentsBlock = () => {
   uploadMoreButton.removeEventListener('click', onUploadMoreButtonClick);
   uploadMoreButton.hidden = false;
-  commentsCounter = 0;
-  comments = [];
 };
 
 function hideModal () {
@@ -79,7 +81,7 @@ const constructBigPicture = (picture, photoInfo, image) =>{
   description.textContent = photoInfo.description;
   likesCount.textContent = likes.textContent;
   commentsCount.textContent = maxCommentsCount.textContent;
-  comments = photoInfo.comments.slice();
+  commentsBlock.dataset.photoId = photoInfo.id;
   createCommentsBlock();
 };
 
@@ -91,8 +93,9 @@ const showBigPicture = (picture, photoInfo, image) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-export const renderBigPicture = (photos) => {
+export const renderBigPicture = (photoInfos) => {
   const pictures = document.querySelectorAll('.picture');
+  photos = photoInfos.slice();
   pictures.forEach((picture) => {
     const image = picture.querySelector('.picture__img');
     const photoInfo = photos.filter((photo) => `/${photo.url}` === new URL(image.src).pathname)[0];
