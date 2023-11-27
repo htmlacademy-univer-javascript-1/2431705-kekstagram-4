@@ -1,6 +1,6 @@
 import {isEscapeKey, isRightString} from './util.js';
 import{renderScaleButtons, destroyScaleButtons} from './image-scale.js';
-
+import{createEffectSlider, onEffectsFilterChange, resetFilters} from './image-effects.js';
 
 const uploadButton = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
@@ -9,6 +9,7 @@ const cancelButton = document.querySelector('#upload-cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const comments = document.querySelector('.text__description');
 const rightHashtag = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
+const EffectsFilter = document.querySelector('.img-upload__effects');
 
 const MAX_HASHTAG_LENGTH = 20;
 
@@ -51,6 +52,7 @@ function closeOverlay () {
   document.removeEventListener('keydown', onEscapeKeydown);
   document.removeEventListener('keydown', onEscapeKeydown);
   destroyScaleButtons();
+  resetFilters();
   form.reset();
 }
 
@@ -71,6 +73,7 @@ const validateForm = () => {
 const openOverlay = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  EffectsFilter.addEventListener('change', onEffectsFilterChange);
   cancelButton.addEventListener('click', onClickCancelButton);
   document.addEventListener('keydown', onEscapeKeydown);
   renderScaleButtons();
@@ -79,6 +82,7 @@ const openOverlay = () => {
 };
 
 export const renderUploadForm = () => {
+  createEffectSlider();
   uploadButton.addEventListener('change', openOverlay);
   form.addEventListener('submit', (evt) => {
     if(!validateForm()){
