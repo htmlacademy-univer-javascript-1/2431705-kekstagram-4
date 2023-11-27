@@ -1,4 +1,3 @@
-const LIMIT = 5;
 const bigPicture = document.querySelector('.big-picture');
 const commentsCount = bigPicture.querySelector('.comments-count');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -8,8 +7,9 @@ const uploadMoreButton = bigPicture.querySelector('.comments-loader');
 const nowComments = bigPicture.querySelector('.openedComments-count');
 const commentsBlock = bigPicture.querySelector('.social__comments');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
+const LIMIT = 5;
 let comments;
-let end;
+let commentsCounter;
 
 const createComment = (avatar, name, text) => `<li class="social__comment">
     <img
@@ -21,29 +21,29 @@ const createComment = (avatar, name, text) => `<li class="social__comment">
   </li>`;
 
 
-const uploadComments = (limit) => {
-  const start = end - limit;
-  if(end >= comments.length){
-    end = comments.length;
+const uploadComments = () => {
+  const start = commentsCounter - LIMIT;
+  if(commentsCounter >= comments.length){
+    commentsCounter = comments.length;
     uploadMoreButton.hidden = true;
   }
 
-  nowComments.textContent = end === comments.length - 1 ? end + 1 : end;
+  nowComments.textContent = commentsCounter;
   commentsBlock.insertAdjacentHTML(
-    'afterbegin',
-    comments.slice(start, end).map((comment) => createComment(comment.avatar, comment.name, comment.message)).join('')
+    'beforeend',
+    comments.slice(start, commentsCounter).map((comment) => createComment(comment.avatar, comment.name, comment.message)).join('')
   );
 };
 
 const onUploadMoreButtonClick = () =>{
-  end += LIMIT;
-  uploadComments(LIMIT, comments, end);
+  commentsCounter += LIMIT;
+  uploadComments();
 };
 
 const createCommentsBlock = () =>{
   commentsBlock.innerHTML = '';
-  end = LIMIT;
-  uploadComments(LIMIT, comments, end);
+  commentsCounter = LIMIT;
+  uploadComments();
   uploadMoreButton.addEventListener('click', onUploadMoreButtonClick);
 };
 
@@ -52,16 +52,16 @@ const onDocumentKeydown = (evt) => {
     hideModal();
   }
 };
-
 const onCloseButtonClick = () => {
   hideModal();
 };
 
+
 const destroyCommentsBlock = () => {
   uploadMoreButton.removeEventListener('click', onUploadMoreButtonClick);
   uploadMoreButton.hidden = false;
-  end = 0;
-  comments = '';
+  commentsCounter = 0;
+  comments = [];
 };
 
 function hideModal () {
