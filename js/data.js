@@ -1,5 +1,5 @@
 import {getRandomNumberFromInterval} from './util.js';
-const MESSAGES = ['', 'Всё отлично!В целом всё неплохо. Но не всё.',
+const MESSAGES = ['ты лозор', 'Всё отлично!В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
@@ -12,7 +12,7 @@ const LikesCount = {
 };
 
 const getComments = (quantity, id) => new Array(quantity).fill('').map((_, messageId) => {
-  const mesIndex = getRandomNumberFromInterval(0, MESSAGES.length - 1);
+  const mesIndex = getRandomNumberFromInterval(1, MESSAGES.length - 1);
 
   return {
     id: `(${id}-${messageId})`,
@@ -22,11 +22,13 @@ const getComments = (quantity, id) => new Array(quantity).fill('').map((_, messa
   };
 });
 
-export const getPhotoDescriptions = (photosCount) =>
-  new Array(photosCount).fill('').map((_, id) => ({
+export const getPhotoDescriptions = (photosCount) => new Array(photosCount).fill('').map((_, index) => {
+  const id = index + 1;
+  return {
     id: id,
-    url :`photos/${id}.jpg`,
-    description : 'Мое придуманное описание',
+    url: `photos/${id}.jpg`,
+    description: 'Мое придуманное описание',
     likes: getRandomNumberFromInterval(LikesCount.MIN, LikesCount.MAX),
     comments: getComments(getRandomNumberFromInterval(0, MAX_COMMENTS_COUNT), id)
-  }));
+  };
+});
