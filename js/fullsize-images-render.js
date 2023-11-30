@@ -1,3 +1,4 @@
+const LIMIT = 5;
 const bigPicture = document.querySelector('.big-picture');
 const commentsCount = bigPicture.querySelector('.comments-count');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -7,7 +8,7 @@ const uploadMoreButton = bigPicture.querySelector('.comments-loader');
 const nowComments = bigPicture.querySelector('.openedComments-count');
 const commentsBlock = bigPicture.querySelector('.social__comments');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
-const LIMIT = 5;
+let commentsCounter;
 let photos;
 
 const createComment = (avatar, name, text) => `<li class="social__comment">
@@ -23,14 +24,12 @@ const createComment = (avatar, name, text) => `<li class="social__comment">
 const uploadComments = () => {
   const id = commentsBlock.dataset.photoId;
   const comments = photos.filter((photo) => photo.id === Number(id))[0].comments;
-  let commentsCounter  = Number(nowComments.textContent);
   const start = commentsCounter - LIMIT;
-  if(commentsCounter >= comments.length){
-    commentsCounter = comments.length;
-    uploadMoreButton.hidden = true;
-  }
-
   nowComments.textContent = commentsCounter;
+  if(commentsCounter >= comments.length){
+    nowComments.textContent = comments.length;
+    uploadMoreButton.classList.add('hidden');
+  }
   commentsBlock.insertAdjacentHTML(
     'beforeend',
     comments.slice(start, commentsCounter).map((comment) => createComment(comment.avatar, comment.name, comment.message)).join('')
@@ -38,7 +37,6 @@ const uploadComments = () => {
 };
 
 const onUploadMoreButtonClick = () =>{
-  let commentsCounter = Number(nowComments.textContent);
   commentsCounter += LIMIT;
   nowComments.textContent = commentsCounter;
   uploadComments();
@@ -47,6 +45,7 @@ const onUploadMoreButtonClick = () =>{
 const createCommentsBlock = () =>{
   commentsBlock.innerHTML = '';
   nowComments.textContent = LIMIT;
+  commentsCounter = LIMIT;
   uploadComments();
   uploadMoreButton.addEventListener('click', onUploadMoreButtonClick);
 };
@@ -63,7 +62,7 @@ const onCloseButtonClick = () => {
 
 const destroyCommentsBlock = () => {
   uploadMoreButton.removeEventListener('click', onUploadMoreButtonClick);
-  uploadMoreButton.hidden = false;
+  uploadMoreButton.classList.remove('hidden');
 };
 
 function hideModal () {
