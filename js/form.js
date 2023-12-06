@@ -23,7 +23,8 @@ const isCorrectHashtags = () =>{
     return hashtag;
   });
   const uniqueTags = new Set(hashtagsArray);
-  return isСorrectTag && uniqueTags.size === hashtagsArray.length && hashtagsArray.length <= 5;
+
+  return (isСorrectTag && uniqueTags.size === hashtagsArray.length && hashtagsArray.length <= 5) || hashtags.value === '';
 };
 
 const onFocusPreventClose = (evt) => {
