@@ -3,6 +3,7 @@ import {isEscapeKey, isRightString} from './util.js';
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
+const validImageTypes = ['gif', 'jpeg', 'png'];
 
 const uploadButton = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
@@ -45,6 +46,11 @@ const onCancelButtonClick = () => {
   closeOverlay();
 };
 
+const isPicture = () => {
+  const path = uploadButton.value.toLowerCase();
+
+  return validImageTypes.some((type) => path.endsWith(type));
+};
 
 function closeOverlay () {
   document.body.classList.remove('modal-open');
@@ -70,6 +76,7 @@ const validateForm = () => {
 };
 
 const onUploadButtonChange = () => {
+  if(!isPicture()) {return;}
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   cancelButton.addEventListener('click', onCancelButtonClick);
