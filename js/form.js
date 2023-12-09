@@ -3,7 +3,7 @@ import {isEscapeKey, isRightString} from './util.js';
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];;
+const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
 
 const uploadButton = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
