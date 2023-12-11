@@ -30,7 +30,7 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off">
+          <form class="img-upload__form" id="upload-select-image" action="https://29.javascript.pages.academy/kekstagram" method="post" enctype="multipart/form-data" autocomplete="off">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
@@ -231,10 +231,12 @@
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
   <script type="text/javascript" src="js/functions.js"></script>
+  <script src="pristine/Pristine-master/dist/pristine.min.js"></script>
+  <script type="module" src="js/fullsize-images-render.js"></script>
   <script type="module" src="js/util.js"></script>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/thumbnails.js"></script>
   <script type="module" src="js/data.js"></script>
-  <script type="module" src="js/fullsize-images-render.js"></script>
+  <script type="module" src="js/form.js"></script>
 </body>
 </html>
