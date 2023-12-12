@@ -1,10 +1,3 @@
-
-
-const image = document.querySelector('.img-upload__preview').querySelector('img');
-const sliderValue = document.querySelector('.effect-level__value');
-const sliderWrapper = document.querySelector('.img-upload__effect-level');
-const slider = document.querySelector('.effect-level__slider');
-
 const EFFECTS = {
   'none': { name: 'none', filter: '', unit: '',
     options: {range: {min: 0, max: 100}, step: 1, start: 100},
@@ -25,12 +18,21 @@ const EFFECTS = {
     options: {range: {min: 1, max: 4}, step: 0.1, start: 4},
   }
 };
+const DefaultSliderParams = {
+  range: {min: 0, max: 100},
+  start: 100,
+  step: 0.1
+};
+
+const image = document.querySelector('.img-upload__preview').querySelector('img');
+const sliderValue = document.querySelector('.effect-level__value');
+const sliderWrapper = document.querySelector('.img-upload__effect-level');
+const slider = document.querySelector('.effect-level__slider');
+
 
 export const createEffectSlider = () =>{
   sliderWrapper.classList.add('hidden');
-  noUiSlider.create(slider, {
-    range: {min: 0, max: 100}, start: 100, step: 0.1
-  });
+  noUiSlider.create(slider,  DefaultSliderParams);
 };
 
 export const resetFilters = () => {
