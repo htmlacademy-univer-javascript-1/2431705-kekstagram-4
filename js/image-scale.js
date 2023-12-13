@@ -14,7 +14,7 @@ const image = document.querySelector('.img-upload__preview').querySelector('img'
 const isValueInScaleInterval = (value) =>
   value >= ScaleInterval.MIN && value <= ScaleInterval.MAX;
 
-const onScaleButtonClick = (evt) => {
+const updateScale = (evt) => {
   const val = +scaleValue.value.replace('%', '') + STEP * +evt.target.dataset.value;
   if(isValueInScaleInterval(val)){
     image.style.transform = `scale(${val / MAX_PERCENT})`;
@@ -22,14 +22,19 @@ const onScaleButtonClick = (evt) => {
   }
 };
 
+const onScaleBiggerClick = updateScale;
+
+const onScaleSmallerClick = updateScale;
+
+
 export const renderScaleButtons = () => {
-  scaleBigger.addEventListener('click', onScaleButtonClick);
-  scaleSmaller.addEventListener('click', onScaleButtonClick);
+  scaleBigger.addEventListener('click', onScaleBiggerClick);
+  scaleSmaller.addEventListener('click', onScaleSmallerClick);
 };
 
 export const destroyScaleButtons = () => {
   image.style.transform = DEFEALT_SCALE;
-  scaleBigger.removeEventListener('click', onScaleButtonClick);
-  scaleSmaller.removeEventListener('click', onScaleButtonClick);
+  scaleBigger.removeEventListener('click', onScaleBiggerClick);
+  scaleSmaller.removeEventListener('click', onScaleSmallerClick);
 };
 

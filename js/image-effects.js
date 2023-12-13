@@ -1,4 +1,4 @@
-const EFFECTS = {
+const EFFECT = {
   'none': { name: 'none', filter: '', unit: '',
     options: {range: {min: 0, max: 100}, step: 1, start: 100},
   },
@@ -36,23 +36,23 @@ export const createEffectSlider = () =>{
 };
 
 export const resetFilters = () => {
-  image.style.filter = 'none';
+  image.style.filter = EFFECT['none'].name;
   sliderWrapper.classList.add('hidden');
 };
 
 export const onEffectsFilterChange = (evt) =>{
   const effect = evt.target.value;
-  if(effect === 'none'){
+  if(effect === EFFECT['none'].name){
     resetFilters();
   }
   else{
     sliderWrapper.classList.remove('hidden');
     image.removeAttribute('class');
     image.classList.add(`effects__preview--${effect}`);
-    slider.noUiSlider.updateOptions(EFFECTS[effect].options);
+    slider.noUiSlider.updateOptions(EFFECT[effect].options);
     slider.noUiSlider.on('update', () => {
       sliderValue.value = slider.noUiSlider.get();
-      image.style.filter = `${EFFECTS[effect].filter}(${sliderValue.value}${EFFECTS[effect].unit})`;
+      image.style.filter = `${EFFECT[effect].filter}(${sliderValue.value}${EFFECT[effect].unit})`;
     });
   }
 };

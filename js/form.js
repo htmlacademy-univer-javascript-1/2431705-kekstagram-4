@@ -6,7 +6,7 @@ const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
-const RIGHT_HASHTAG = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
+const HASHTAG_RULE = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
 const formErorrorsMessages = {
   hashTag: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
   comment: 'Комментарий не более 140 символов'
@@ -18,7 +18,7 @@ const overlay = document.querySelector('.img-upload__overlay');
 const cancelButton = document.querySelector('#upload-cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const comments = document.querySelector('.text__description');
-const EffectsFilter = document.querySelector('.img-upload__effects');
+const effectsFilter = document.querySelector('.img-upload__effects');
 
 
 const isCorrectComment = (comment) => isRightString(comment, MAX_COMMENT_LENGTH);
@@ -27,7 +27,7 @@ const isCorrectHashtags = () =>{
   let isСorrectTag = true;
   const hashtagsArray = hashtags.value.split(' ').map((hashtag) => {
     hashtag = hashtag.toLowerCase();
-    if(!RIGHT_HASHTAG.test(hashtag) || String(hashtag).length > MAX_HASHTAG_LENGTH){
+    if(!HASHTAG_RULE.test(hashtag) || String(hashtag).length > MAX_HASHTAG_LENGTH){
       isСorrectTag = false;
     }
     return hashtag;
@@ -89,7 +89,7 @@ const onUploadButtonChange = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   renderScaleButtons();
-  EffectsFilter.addEventListener('change', onEffectsFilterChange);
+  effectsFilter.addEventListener('change', onEffectsFilterChange);
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onEscapeKeydown);
   comments.addEventListener('keydown', onFocusPreventClose);
