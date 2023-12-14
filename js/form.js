@@ -7,7 +7,7 @@ const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
 const HASHTAG_RULE = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
-const formErorrorsMessages = {
+const ErrorMessage = {
   hashTag: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
   comment: 'Комментарий не более 140 символов'
 };
@@ -78,8 +78,8 @@ const validateForm = () => {
     errorTextClass: 'img-upload__field-wrapper__error'
   });
   pristine.addValidator(hashtags, isCorrectHashtags,
-    formErorrorsMessages.hashTag);
-  pristine.addValidator(comments, isCorrectComment, formErorrorsMessages.comment);
+    ErrorMessage.hashTag);
+  pristine.addValidator(comments, isCorrectComment, ErrorMessage.comment);
 
   return pristine.validate();
 };
