@@ -8,8 +8,8 @@ const MAX_HASHTAG_COUNT = 5;
 const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
 const HASHTAG_RULE = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
 const ErrorMessage = {
-  hashTag: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
-  comment: 'Комментарий не более 140 символов'
+  BAD_HASHTAG: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
+  BAD_COMMENT: 'Комментарий не более 140 символов'
 };
 
 const uploadButton = document.querySelector('#upload-file');
@@ -78,8 +78,8 @@ const validateForm = () => {
     errorTextClass: 'img-upload__field-wrapper__error'
   });
   pristine.addValidator(hashtags, isCorrectHashtags,
-    ErrorMessage.hashTag);
-  pristine.addValidator(comments, isCorrectComment, ErrorMessage.comment);
+    ErrorMessage.BAD_HASHTAG);
+  pristine.addValidator(comments, isCorrectComment, ErrorMessage.BAD_COMMENT);
 
   return pristine.validate();
 };

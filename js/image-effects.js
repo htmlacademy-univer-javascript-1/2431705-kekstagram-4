@@ -1,29 +1,28 @@
 const Effect = {
-  'none': { name: 'none', filter: '', unit: '',
+  NONE: { name: 'none', filter: '', unit: '',
     options: {range: {min: 0, max: 100}, step: 1, start: 100},
   },
-  'chrome': {name: 'chrome', filter: 'grayscale', unit: '%',
+  CHROME: {name: 'chrome', filter: 'grayscale', unit: '%',
     options: { range: {min: 0, max: 100}, step: 1, start: 100},
   },
-  'sepia': { name: 'sepia', filter: 'sepia', unit: '%',
+  SEPIA: { name: 'sepia', filter: 'sepia', unit: '%',
     options: { range: {min: 0, max: 100}, step: 1, start: 100},
   },
-  'marvin': { name: 'marvin', filter: 'invert', unit: '%',
+  MARVIN: { name: 'marvin', filter: 'invert', unit: '%',
     options: {range: {min: 0, max: 100}, step: 1, start: 100},
   },
-  'phobos': {name: 'phobos', filter: 'blur', unit: 'px',
+  PHOBOS: {name: 'phobos', filter: 'blur', unit: 'px',
     options: {range: {min: 1, max: 10}, step: 0.1, start: 10},
   },
-  'heat': {name: 'heat', filter: 'brightness', unit: '',
+  HEAT: {name: 'heat', filter: 'brightness', unit: '',
     options: {range: {min: 1, max: 4}, step: 0.1, start: 4},
   }
 };
 const DefaultSliderParam = {
-  range: {min: 0, max: 100},
-  start: 100,
-  step: 0.1
+  range: {min: 0, max: 100}, start: 100, step: 0.1
 };
 
+const NONE = 'NONE';
 const image = document.querySelector('.img-upload__preview').querySelector('img');
 const sliderValue = document.querySelector('.effect-level__value');
 const sliderWrapper = document.querySelector('.img-upload__effect-level');
@@ -36,13 +35,13 @@ export const createEffectSlider = () =>{
 };
 
 export const resetFilters = () => {
-  image.style.filter = Effect['none'].name;
+  image.style.filter = Effect[NONE].name;
   sliderWrapper.classList.add('hidden');
 };
 
 export const onEffectsFilterChange = (evt) =>{
-  const effect = evt.target.value;
-  if(effect === Effect['none'].name){
+  const effect = evt.target.value.toUpperCase();
+  if(effect === Effect[NONE].name){
     resetFilters();
   }
   else{
