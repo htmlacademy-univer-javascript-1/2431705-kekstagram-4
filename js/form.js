@@ -1,4 +1,6 @@
+import { sendData } from './api.js';
 import {isEscapeKey, isRightString} from './util.js';
+import { showSuccessMessage, showErrorMessage } from './mesages.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
@@ -12,7 +14,12 @@ const cancelButton = document.querySelector('#upload-cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const comments = document.querySelector('.text__description');
 const rightHashtag = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
+const submitButton = document.querySelector('.img-upload__submit');
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Сохраняю...'
+};
 
 const isCorrectComment = (comment) => isRightString(comment, MAX_COMMENT_LENGTH);
 
@@ -52,15 +59,15 @@ const isPicture = () => {
   return VALID_IMAGE_TYPES.some((type) => type === fileType);
 };
 
-function closeOverlay () {
-  document.body.classList.remove('modal-open');
-  overlay.classList.add('hidden');
-  comments.removeEventListener('keydown', onFocusPreventClose);
-  hashtags.removeEventListener('keydown', onFocusPreventClose);
-  document.removeEventListener('keydown', onEscapeKeydown);
-  form.reset();
-}
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
 
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
 
 const validateForm = () => {
   const pristine = new Pristine(form, {
@@ -75,10 +82,36 @@ const validateForm = () => {
   return pristine.validate();
 };
 
+const onFormSubmit = (evt) => {
+  if (validateForm()) {
+    evt.preventDefault();
+    blockSubmitButton();
+    sendData(new FormData(evt.target))
+      .then(() =>{
+        closeOverlay();
+        showSuccessMessage();
+      })
+      .catch(showErrorMessage)
+      .finally(unblockSubmitButton);
+  }
+
+};
+
+function closeOverlay () {
+  document.body.classList.remove('modal-open');
+  overlay.classList.add('hidden');
+  comments.removeEventListener('keydown', onFocusPreventClose);
+  hashtags.removeEventListener('keydown', onFocusPreventClose);
+  document.removeEventListener('keydown', onEscapeKeydown);
+  form.removeEventListener('submit', onFormSubmit);
+  form.reset();
+}
+
 const onUploadButtonChange = () => {
   if(!isPicture()) {return;}
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  form.addEventListener('submit', onFormSubmit);
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onEscapeKeydown);
   comments.addEventListener('keydown', onFocusPreventClose);
@@ -87,11 +120,6 @@ const onUploadButtonChange = () => {
 
 export const renderUploadForm = () => {
   uploadButton.addEventListener('change', onUploadButtonChange);
-  form.addEventListener('submit', (evt) => {
-    if(!validateForm()){
-      evt.preventDefault();
-    }
-  });
 };
 
 

@@ -1,11 +1,18 @@
 import {thumbnailsRender} from './thumbnails.js';
 import {renderUploadForm} from './form.js';
 import {renderBigPicture} from './fullsize-images-render.js';
-import { createLoader, ErrorText } from './api.js';
+import { getData} from './api.js';
+import { showAlert } from './util.js';
 
 
-createLoader((data) => {thumbnailsRender(data);
-  renderBigPicture(data);
-} , console.log(ErrorText.GET_DATA));
+getData()
+  .then((data) => {
+    thumbnailsRender(data);
+    renderBigPicture(data);
+  })
+  .catch(
+    (err) => {
+      showAlert(err.message);
+    });
 renderUploadForm();
 
