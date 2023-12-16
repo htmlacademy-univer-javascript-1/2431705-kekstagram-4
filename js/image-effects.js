@@ -22,7 +22,7 @@ const DefaultSliderParam = {
   range: {min: 0, max: 100}, start: 100, step: 0.1
 };
 
-const NONE = 'NONE';
+const DEFAULT_FILTER = 'NONE';
 const image = document.querySelector('.img-upload__preview').querySelector('img');
 const sliderValue = document.querySelector('.effect-level__value');
 const sliderWrapper = document.querySelector('.img-upload__effect-level');
@@ -35,23 +35,37 @@ export const createEffectSlider = () =>{
 };
 
 export const resetFilters = () => {
-  image.style.filter = Effect[NONE].name;
+  image.style.filter = Effect[DEFAULT_FILTER].name;
   sliderWrapper.classList.add('hidden');
 };
 
-export const onEffectsFilterChange = (evt) =>{
+const updateImagePreview = (effect) => {
+  image.removeAttribute('class');
+  image.classList.add(`effects__preview--${effect}`);
+
+  slider.noUiSlider.updateOptions(Effect[effect].options);
+  slider.noUiSlider.on('update', () => {
+    sliderValue.value = slider.noUiSlider.get();
+    image.style.filter = `${Effect[effect].filter}(${sliderValue.value}${Effect[effect].unit})`;
+  });
+};
+
+const updateSliderOptions = (effect) => {
+  slider.noUiSlider.updateOptions(Effect[effect].options);
+};
+
+const showFilterPreview = (effect) => {
+  sliderWrapper.classList.remove('hidden');
+  updateImagePreview(effect);
+  updateSliderOptions(effect);
+};
+
+export const onEffectsFilterChange = (evt) => {
   const effect = evt.target.value.toUpperCase();
-  if(effect === Effect[NONE].name){
+
+  if (effect === Effect[DEFAULT_FILTER].name.toUpperCase()) {
     resetFilters();
-  }
-  else{
-    sliderWrapper.classList.remove('hidden');
-    image.removeAttribute('class');
-    image.classList.add(`effects__preview--${effect}`);
-    slider.noUiSlider.updateOptions(Effect[effect].options);
-    slider.noUiSlider.on('update', () => {
-      sliderValue.value = slider.noUiSlider.get();
-      image.style.filter = `${Effect[effect].filter}(${sliderValue.value}${Effect[effect].unit})`;
-    });
+  } else {
+    showFilterPreview(effect);
   }
 };
