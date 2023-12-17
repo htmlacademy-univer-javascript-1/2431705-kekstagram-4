@@ -1,9 +1,16 @@
 import {isEscapeKey, isRightString} from './util.js';
+import{renderScaleButtons, destroyScaleButtons} from './image-scale.js';
+import{createEffectSlider, onEffectsFilterChange, resetFilters} from './image-effects.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
+const HASHTAG_RULE = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
+const ErrorMessage = {
+  BAD_HASHTAG: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
+  BAD_COMMENT: 'Комментарий не более 140 символов'
+};
 
 const uploadButton = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
@@ -11,7 +18,7 @@ const overlay = document.querySelector('.img-upload__overlay');
 const cancelButton = document.querySelector('#upload-cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const comments = document.querySelector('.text__description');
-const rightHashtag = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
+const effectsFilter = document.querySelector('.img-upload__effects');
 
 
 const isCorrectComment = (comment) => isRightString(comment, MAX_COMMENT_LENGTH);
@@ -20,7 +27,7 @@ const isCorrectHashtags = () =>{
   let isСorrectTag = true;
   const hashtagsArray = hashtags.value.split(' ').map((hashtag) => {
     hashtag = hashtag.toLowerCase();
-    if(!rightHashtag.test(hashtag) || String(hashtag).length > MAX_HASHTAG_LENGTH){
+    if(!HASHTAG_RULE.test(hashtag) || String(hashtag).length > MAX_HASHTAG_LENGTH){
       isСorrectTag = false;
     }
     return hashtag;
@@ -58,6 +65,8 @@ function closeOverlay () {
   comments.removeEventListener('keydown', onFocusPreventClose);
   hashtags.removeEventListener('keydown', onFocusPreventClose);
   document.removeEventListener('keydown', onEscapeKeydown);
+  destroyScaleButtons();
+  resetFilters();
   form.reset();
 }
 
@@ -69,8 +78,8 @@ const validateForm = () => {
     errorTextClass: 'img-upload__field-wrapper__error'
   });
   pristine.addValidator(hashtags, isCorrectHashtags,
-    'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом');
-  pristine.addValidator(comments, isCorrectComment, 'Комментарий не более 140 символов');
+    ErrorMessage.BAD_HASHTAG);
+  pristine.addValidator(comments, isCorrectComment, ErrorMessage.BAD_COMMENT);
 
   return pristine.validate();
 };
@@ -79,6 +88,8 @@ const onUploadButtonChange = () => {
   if(!isPicture()) {return;}
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  renderScaleButtons();
+  effectsFilter.addEventListener('change', onEffectsFilterChange);
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onEscapeKeydown);
   comments.addEventListener('keydown', onFocusPreventClose);
@@ -87,6 +98,7 @@ const onUploadButtonChange = () => {
 
 export const renderUploadForm = () => {
   uploadButton.addEventListener('change', onUploadButtonChange);
+  createEffectSlider();
   form.addEventListener('submit', (evt) => {
     if(!validateForm()){
       evt.preventDefault();
