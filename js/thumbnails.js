@@ -14,6 +14,10 @@ const getPicture = (photo) =>{
   return picture;
 };
 
+export const destroyThumbnails = () =>{
+  const miniatures = pictures.querySelectorAll('.picture');
+  miniatures.forEach((picture) => picture.remove());
+};
 
 export const thumbnailsRender = (data) =>{
   photos = data.slice();
