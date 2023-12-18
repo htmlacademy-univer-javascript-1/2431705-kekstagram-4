@@ -22,9 +22,9 @@ const updateScale = (evt) => {
   }
 };
 
-const onScaleBiggerClick = (evt) => updateScale(evt.target.dataset.value);;
+const onScaleBiggerClick = (evt) => updateScale(evt.target.dataset.value);
 
-const onScaleSmallerClick =(evt) => updateScale(evt.target.dataset.value);;
+const onScaleSmallerClick =(evt) => updateScale(evt.target.dataset.value);
 
 
 export const renderScaleButtons = () => {
