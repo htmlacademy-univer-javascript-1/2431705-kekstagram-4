@@ -71,17 +71,6 @@ const blockSubmitButton = () => {
   submitButton.textContent = SubmitButtonText.SENDING;
 };
 
-function closeOverlay () {
-  document.body.classList.remove('modal-open');
-  overlay.classList.add('hidden');
-  comments.removeEventListener('keydown', onFocusPreventClose);
-  hashtags.removeEventListener('keydown', onFocusPreventClose);
-  document.removeEventListener('keydown', onEscapeKeydown);
-  destroyScaleButtons();
-  resetFilters();
-  form.reset();
-}
-
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = SubmitButtonText.IDLE;
@@ -112,8 +101,19 @@ const onFormSubmit = (evt) => {
       .catch(showErrorMessage)
       .finally(unblockSubmitButton);
   }
-
 };
+
+function closeOverlay () {
+  document.body.classList.remove('modal-open');
+  overlay.classList.add('hidden');
+  form.removeEventListener('submit', onFormSubmit);
+  comments.removeEventListener('keydown', onFocusPreventClose);
+  hashtags.removeEventListener('keydown', onFocusPreventClose);
+  document.removeEventListener('keydown', onEscapeKeydown);
+  destroyScaleButtons();
+  resetFilters();
+  form.reset();
+}
 
 const onUploadButtonChange = () => {
   if(!isPicture()) {return;}
