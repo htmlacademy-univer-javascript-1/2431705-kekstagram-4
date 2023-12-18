@@ -101,8 +101,8 @@ const validateForm = () => {
 };
 
 const onFormSubmit = (evt) => {
+  evt.preventDefault();
   if (validateForm()) {
-    evt.preventDefault();
     blockSubmitButton();
     sendData(new FormData(evt.target))
       .then(() =>{
