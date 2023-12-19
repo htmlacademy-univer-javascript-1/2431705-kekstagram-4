@@ -50,6 +50,9 @@ const onFocusPreventClose = (evt) => {
   }
 };
 
+const onComenntsKeydown = (evt) => () => onFocusPreventClose(evt);
+const onHashtagsKeydown = (evt) => () => onFocusPreventClose(evt);
+
 const onEscapeKeydown = (evt) => {
   if(isEscapeKey(evt)){
     closeOverlay();
@@ -107,8 +110,8 @@ function closeOverlay () {
   document.body.classList.remove('modal-open');
   overlay.classList.add('hidden');
   form.removeEventListener('submit', onFormSubmit);
-  comments.removeEventListener('keydown', onFocusPreventClose);
-  hashtags.removeEventListener('keydown', onFocusPreventClose);
+  comments.removeEventListener('keydown', onComenntsKeydown);
+  hashtags.removeEventListener('keydown', onHashtagsKeydown);
   document.removeEventListener('keydown', onEscapeKeydown);
   destroyScaleButtons();
   resetFilters();
@@ -124,8 +127,8 @@ const onUploadButtonChange = () => {
   effectsFilter.addEventListener('change', onEffectsFilterChange);
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onEscapeKeydown);
-  comments.addEventListener('keydown', onFocusPreventClose);
-  hashtags.addEventListener('keydown', onFocusPreventClose);
+  comments.addEventListener('keydown', onComenntsKeydown);
+  hashtags.addEventListener('keydown', onHashtagsKeydown);
 };
 
 export const renderUploadForm = () => {
