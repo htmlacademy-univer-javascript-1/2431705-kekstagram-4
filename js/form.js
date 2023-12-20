@@ -1,4 +1,6 @@
+import { sendData } from './api.js';
 import {isEscapeKey, isRightString} from './util.js';
+import { showSuccessMessage, showErrorMessage } from './mesages.js';
 import{renderScaleButtons, destroyScaleButtons} from './image-scale.js';
 import{createEffectSlider, onEffectsFilterChange, resetFilters} from './image-effects.js';
 
@@ -18,8 +20,13 @@ const overlay = document.querySelector('.img-upload__overlay');
 const cancelButton = document.querySelector('#upload-cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const comments = document.querySelector('.text__description');
+const submitButton = document.querySelector('.img-upload__submit');
 const effectsFilter = document.querySelector('.img-upload__effects');
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Сохраняю...'
+};
 
 const isCorrectComment = (comment) => isRightString(comment, MAX_COMMENT_LENGTH);
 
@@ -43,6 +50,9 @@ const onFocusPreventClose = (evt) => {
   }
 };
 
+const onComentsKeydown = (evt) => () => onFocusPreventClose(evt);
+const onHashtagsKeydown = (evt) => () => onFocusPreventClose(evt);
+
 const onEscapeKeydown = (evt) => {
   if(isEscapeKey(evt)){
     closeOverlay();
@@ -59,17 +69,15 @@ const isPicture = () => {
   return VALID_IMAGE_TYPES.some((type) => type === fileType);
 };
 
-function closeOverlay () {
-  document.body.classList.remove('modal-open');
-  overlay.classList.add('hidden');
-  comments.removeEventListener('keydown', onFocusPreventClose);
-  hashtags.removeEventListener('keydown', onFocusPreventClose);
-  document.removeEventListener('keydown', onEscapeKeydown);
-  destroyScaleButtons();
-  resetFilters();
-  form.reset();
-}
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
 
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
 
 const validateForm = () => {
   const pristine = new Pristine(form, {
@@ -84,26 +92,48 @@ const validateForm = () => {
   return pristine.validate();
 };
 
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  if (validateForm()) {
+    blockSubmitButton();
+    sendData(new FormData(evt.target))
+      .then(() =>{
+        closeOverlay();
+        showSuccessMessage();
+      })
+      .catch(showErrorMessage)
+      .finally(unblockSubmitButton);
+  }
+};
+
+function closeOverlay () {
+  document.body.classList.remove('modal-open');
+  overlay.classList.add('hidden');
+  form.removeEventListener('submit', onFormSubmit);
+  comments.removeEventListener('keydown', onComentsKeydown);
+  hashtags.removeEventListener('keydown', onHashtagsKeydown);
+  document.removeEventListener('keydown', onEscapeKeydown);
+  destroyScaleButtons();
+  resetFilters();
+  form.reset();
+}
+
 const onUploadButtonChange = () => {
   if(!isPicture()) {return;}
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  form.addEventListener('submit', onFormSubmit);
   renderScaleButtons();
   effectsFilter.addEventListener('change', onEffectsFilterChange);
   cancelButton.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onEscapeKeydown);
-  comments.addEventListener('keydown', onFocusPreventClose);
-  hashtags.addEventListener('keydown', onFocusPreventClose);
+  comments.addEventListener('keydown', onComentsKeydown);
+  hashtags.addEventListener('keydown', onHashtagsKeydown);
 };
 
 export const renderUploadForm = () => {
   uploadButton.addEventListener('change', onUploadButtonChange);
   createEffectSlider();
-  form.addEventListener('submit', (evt) => {
-    if(!validateForm()){
-      evt.preventDefault();
-    }
-  });
 };
 
 
