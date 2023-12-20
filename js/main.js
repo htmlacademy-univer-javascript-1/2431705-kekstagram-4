@@ -1,13 +1,18 @@
-import {getPhotoDescriptions} from './data.js';
 import {thumbnailsRender} from './thumbnails.js';
 import {renderUploadForm} from './form.js';
 import {renderBigPicture} from './fullsize-images-render.js';
+import { getData} from './api.js';
+import { showAlert } from './util.js';
 
-const PHOTOS_COUNT = 25;
 
-const photos = getPhotoDescriptions(PHOTOS_COUNT);
-
-thumbnailsRender(photos);
+getData()
+  .then((data) => {
+    thumbnailsRender(data);
+    renderBigPicture(data);
+  })
+  .catch(
+    (err) => {
+      showAlert(err.message);
+    });
 renderUploadForm();
-renderBigPicture(photos);
 

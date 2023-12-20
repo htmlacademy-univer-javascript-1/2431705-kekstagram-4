@@ -14,17 +14,17 @@ const image = document.querySelector('.img-upload__preview').querySelector('img'
 const isValueInScaleInterval = (value) =>
   value >= ScaleInterval.MIN && value <= ScaleInterval.MAX;
 
-const updateScale = (evt) => {
-  const val = +scaleValue.value.replace('%', '') + STEP * +evt.target.dataset.value;
+const updateScale = (value) => {
+  const val = +scaleValue.value.replace('%', '') + STEP * +value;
   if(isValueInScaleInterval(val)){
     image.style.transform = `scale(${val / MAX_PERCENT})`;
     scaleValue.value = `${val}%`;
   }
 };
 
-const onScaleBiggerClick = (evt) => updateScale(evt.target.dataset.value);;
+const onScaleBiggerClick = (evt) => updateScale(evt.target.dataset.value);
 
-const onScaleSmallerClick =(evt) => updateScale(evt.target.dataset.value);;
+const onScaleSmallerClick = (evt) => updateScale(evt.target.dataset.value);
 
 
 export const renderScaleButtons = () => {
