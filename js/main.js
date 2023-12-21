@@ -1,14 +1,11 @@
-import {thumbnailsRender} from './thumbnails.js';
 import {renderUploadForm} from './form.js';
-import {renderBigPicture} from './fullsize-images-render.js';
 import { getData} from './api.js';
 import { showAlert } from './util.js';
-
+import {initFilters} from './filters.js';
 
 getData()
   .then((data) => {
-    thumbnailsRender(data);
-    renderBigPicture(data);
+    initFilters(data);
   })
   .catch(
     (err) => {
