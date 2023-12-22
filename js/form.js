@@ -7,7 +7,6 @@ import{createEffectSlider, onEffectsFilterChange, resetFilters} from './image-ef
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
 const HASHTAG_RULE = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
 const ErrorMessage = {
   BAD_HASHTAG: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
@@ -17,6 +16,8 @@ const ErrorMessage = {
 const uploadButton = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
+const mainImage = overlay.querySelector('.img-upload__preview img');
+const effectsPreviews = overlay.querySelectorAll('.effects__item .effects__preview');
 const cancelButton = document.querySelector('#upload-cancel');
 const hashtags = document.querySelector('.text__hashtags');
 const comments = document.querySelector('.text__description');
@@ -61,12 +62,6 @@ const onEscapeKeydown = (evt) => {
 
 const onCancelButtonClick = () => {
   closeOverlay();
-};
-
-const isPicture = () => {
-  const fileType = uploadButton.files[0].type;
-
-  return VALID_IMAGE_TYPES.some((type) => type === fileType);
 };
 
 const blockSubmitButton = () => {
@@ -118,8 +113,16 @@ function closeOverlay () {
   form.reset();
 }
 
+const uploadFile = () => {
+  const file = uploadButton.files[0];
+  mainImage.src = mainImage.src = URL.createObjectURL(file);
+  effectsPreviews.forEach((picture) => {
+    picture.style.backgroundImage = `url('${mainImage.src}')`;
+  });
+};
+
 const onUploadButtonChange = () => {
-  if(!isPicture()) {return;}
+  uploadFile();
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   form.addEventListener('submit', onFormSubmit);
