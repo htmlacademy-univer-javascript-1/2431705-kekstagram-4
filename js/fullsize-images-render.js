@@ -1,3 +1,5 @@
+import { isEscapeKey } from './util.js';
+
 const LIMIT = 5;
 const bigPicture = document.querySelector('.big-picture');
 const commentsCount = bigPicture.querySelector('.comments-count');
@@ -51,7 +53,7 @@ const createCommentsBlock = () =>{
 };
 
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     hideModal();
   }
 };

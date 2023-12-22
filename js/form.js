@@ -51,16 +51,18 @@ const onFocusPreventClose = (evt) => {
   }
 };
 
-const onComentsKeydown = (evt) => () => onFocusPreventClose(evt);
-const onHashtagsKeydown = (evt) => () => onFocusPreventClose(evt);
+const onComentsKeydown = (evt) => onFocusPreventClose(evt);
+const onHashtagsKeydown = (evt) => onFocusPreventClose(evt);
 
 const onEscapeKeydown = (evt) => {
   if(isEscapeKey(evt)){
+    form.reset();
     closeOverlay();
   }
 };
 
 const onCancelButtonClick = () => {
+  form.reset();
   closeOverlay();
 };
 
@@ -87,17 +89,22 @@ const validateForm = () => {
   return pristine.validate();
 };
 
+
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   if (validateForm()) {
     blockSubmitButton();
     sendData(new FormData(evt.target))
       .then(() =>{
-        closeOverlay();
         showSuccessMessage();
+        form.reset();
       })
       .catch(showErrorMessage)
-      .finally(unblockSubmitButton);
+      .finally(() => {
+        unblockSubmitButton();
+        closeOverlay();
+      }
+      );
   }
 };
 
@@ -110,7 +117,6 @@ function closeOverlay () {
   document.removeEventListener('keydown', onEscapeKeydown);
   destroyScaleButtons();
   resetFilters();
-  form.reset();
 }
 
 const uploadFile = () => {
@@ -135,6 +141,7 @@ const onUploadButtonChange = () => {
 };
 
 export const renderUploadForm = () => {
+
   uploadButton.addEventListener('change', onUploadButtonChange);
   createEffectSlider();
 };

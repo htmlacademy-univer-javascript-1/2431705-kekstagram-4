@@ -18,9 +18,6 @@ const Effect = {
     options: {range: {min: 1, max: 4}, step: 0.1, start: 4},
   }
 };
-const DefaultSliderParam = {
-  range: {min: 0, max: 100}, start: 100, step: 0.1
-};
 
 const DEFAULT_FILTER = 'NONE';
 const image = document.querySelector('.img-upload__preview').querySelector('img');
@@ -31,7 +28,7 @@ const slider = document.querySelector('.effect-level__slider');
 
 export const createEffectSlider = () =>{
   sliderWrapper.classList.add('hidden');
-  noUiSlider.create(slider,  DefaultSliderParam);
+  noUiSlider.create(slider,  Effect[DEFAULT_FILTER].options);
 };
 
 export const resetFilters = () => {
