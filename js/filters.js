@@ -31,8 +31,10 @@ const onFiltersFormClick = (evt) =>{
     filtersForm.querySelector(`#${activeFilter}`).classList.remove(ACTIVE_FILTER_CLASS);
     evt.target.classList.add(ACTIVE_FILTER_CLASS);
     activeFilter = id;
+    const pictures = filterFinction[id]();
     destroyThumbnails();
-    thumbnailsRender(filterFinction[id]());
+    thumbnailsRender(pictures);
+    renderBigPicture(pictures);
   }
 };
 

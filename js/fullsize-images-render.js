@@ -94,6 +94,7 @@ const showBigPicture = (picture, photoInfo, image) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+
 export const renderBigPicture = (photoInfos) => {
   const pictures = document.querySelectorAll('.picture');
   photos = photoInfos.slice();
