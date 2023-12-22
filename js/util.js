@@ -1,4 +1,4 @@
-const TIMEOUT_DELAY = 250;
+const TIMEOUT_DELAY = 500;
 const ALERT_SHOW_TIME = 5000;
 
 const shuffle = (arr) => arr.map((element) => [Math.random(), element])

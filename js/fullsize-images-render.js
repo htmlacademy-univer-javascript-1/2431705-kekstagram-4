@@ -1,3 +1,5 @@
+import { isEscapeKey } from './util.js';
+
 const LIMIT = 5;
 const bigPicture = document.querySelector('.big-picture');
 const commentsCount = bigPicture.querySelector('.comments-count');
@@ -51,7 +53,7 @@ const createCommentsBlock = () =>{
 };
 
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     hideModal();
   }
 };
@@ -91,6 +93,7 @@ const showBigPicture = (picture, photoInfo, image) => {
   closeButton.addEventListener('click', onCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
+
 
 export const renderBigPicture = (photoInfos) => {
   const pictures = document.querySelectorAll('.picture');
