@@ -7,7 +7,6 @@ import{createEffectSlider, onEffectsFilterChange, resetFilters} from './image-ef
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
-const VALID_IMAGE_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
 const HASHTAG_RULE = /^#[А-яа-яA-za-zёЁ]{1,19}$/;
 const ErrorMessage = {
   BAD_HASHTAG: 'Уникальные хештеги, каждый не более 20 символов, должны быть разделены пробелом',
