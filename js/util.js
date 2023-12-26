@@ -9,16 +9,15 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const isRightString = (str, maxLen) => String(str).length <= maxLen;
 
+const sortByCommentCountDescending = (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
 
-const  sortByCommentCountDescending= (currentPicture, nextPicture) => nextPicture.comments.length - currentPicture.comments.length;
-
-function debounce (callback) {
+const debounce = (callback) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), TIMEOUT_DELAY);
   };
-}
+};
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -36,9 +35,7 @@ const showAlert = (message) => {
   alertContainer.style.backgroundColor = '#f04848';
   alertContainer.style.borderRadius = '15px';
   alertContainer.style.textTransform = 'none';
-
   alertContainer.textContent = message;
-
   document.body.append(alertContainer);
 
   setTimeout(() => {

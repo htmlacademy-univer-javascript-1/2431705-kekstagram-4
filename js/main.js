@@ -12,4 +12,3 @@ getData()
       showAlert(err.message);
     });
 renderUploadForm();
-
