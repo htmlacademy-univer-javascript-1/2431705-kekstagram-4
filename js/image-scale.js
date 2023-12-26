@@ -1,40 +1,39 @@
 const STEP = 25;
-const DEFEALT_SCALE = 'scale(1)';
+const DEFAULT_SCALE = 'scale(1)';
 const MAX_PERCENT = 100;
 const ScaleInterval = {
   MIN: 25,
   MAX: 100,
 };
 
-const scaleSmaller = document.querySelector('.scale__control--smaller');
-const scaleBigger = document.querySelector('.scale__control--bigger');
-const scaleValue = document.querySelector('.scale__control--value');
-const image = document.querySelector('.img-upload__preview').querySelector('img');
+const scaleSmallerElement = document.querySelector('.scale__control--smaller');
+const scaleBiggerElement = document.querySelector('.scale__control--bigger');
+const scaleValueElement = document.querySelector('.scale__control--value');
+const imageElement = document.querySelector('.img-upload__preview').querySelector('img');
 
 const isValueInScaleInterval = (value) =>
   value >= ScaleInterval.MIN && value <= ScaleInterval.MAX;
 
 const updateScale = (value) => {
-  const val = +scaleValue.value.replace('%', '') + STEP * +value;
+  const val = +scaleValueElement.value.replace('%', '') + STEP * +value;
   if(isValueInScaleInterval(val)){
-    image.style.transform = `scale(${val / MAX_PERCENT})`;
-    scaleValue.value = `${val}%`;
+    imageElement.style.transform = `scale(${val / MAX_PERCENT})`;
+    scaleValueElement.value = `${val}%`;
   }
 };
 
-const onScaleBiggerClick = (evt) => updateScale(evt.target.dataset.value);
+const onScaleBiggerElementClick = (evt) => updateScale(evt.target.dataset.value);
 
-const onScaleSmallerClick = (evt) => updateScale(evt.target.dataset.value);
+const onScaleSmallerElementClick = (evt) => updateScale(evt.target.dataset.value);
 
 
 export const renderScaleButtons = () => {
-  scaleBigger.addEventListener('click', onScaleBiggerClick);
-  scaleSmaller.addEventListener('click', onScaleSmallerClick);
+  scaleBiggerElement.addEventListener('click', onScaleBiggerElementClick);
+  scaleSmallerElement.addEventListener('click', onScaleSmallerElementClick);
 };
 
 export const destroyScaleButtons = () => {
-  image.style.transform = DEFEALT_SCALE;
-  scaleBigger.removeEventListener('click', onScaleBiggerClick);
-  scaleSmaller.removeEventListener('click', onScaleSmallerClick);
+  imageElement.style.transform = DEFAULT_SCALE;
+  scaleBiggerElement.removeEventListener('click', onScaleBiggerElementClick);
+  scaleSmallerElement.removeEventListener('click', onScaleSmallerElementClick);
 };
-

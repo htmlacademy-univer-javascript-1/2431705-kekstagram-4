@@ -1,10 +1,10 @@
 let photos = null;
-const templatePicture = document.querySelector('#picture').content;
-const pictures = document.querySelector('.pictures');
+const templatePictureElement = document.querySelector('#picture').content;
+const picturesElement = document.querySelector('.pictures');
 
 
 const getPicture = (photo) =>{
-  const picture = templatePicture.cloneNode(true);
+  const picture = templatePictureElement.cloneNode(true);
   const img = picture.querySelector('.picture__img');
   img.src = photo.url;
   img.alt = photo.description;
@@ -15,7 +15,7 @@ const getPicture = (photo) =>{
 };
 
 export const destroyThumbnails = () =>{
-  const miniatures = pictures.querySelectorAll('.picture');
+  const miniatures = picturesElement.querySelectorAll('.picture');
   miniatures.forEach((picture) => picture.remove());
 };
 
@@ -23,7 +23,7 @@ export const thumbnailsRender = (data) =>{
   photos = data.slice();
   if(photos){
     photos.forEach((photo) => {
-      pictures.appendChild(getPicture(photo));
+      picturesElement.appendChild(getPicture(photo));
     });
   }
 };

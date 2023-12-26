@@ -18,7 +18,7 @@ const filtersForm = filtersContainer.querySelector('.img-filters__form');
 let activeFilter = Filter.DEFAULT;
 let photos = [];
 
-const filterFinction = {
+const filterFunction = {
   [Filter.DEFAULT]: () => photos,
   [Filter.RANDOM]: () => shuffle(photos.slice()).slice(0, MAX_COUNT_RANDOM_PHOTO),
   [Filter.DISCUSSED]: () => photos.slice().sort(sortByCommentCountDescending)
@@ -31,7 +31,7 @@ const onFiltersFormClick = (evt) =>{
     filtersForm.querySelector(`#${activeFilter}`).classList.remove(ACTIVE_FILTER_CLASS);
     evt.target.classList.add(ACTIVE_FILTER_CLASS);
     activeFilter = id;
-    const pictures = filterFinction[id]();
+    const pictures = filterFunction[id]();
     destroyThumbnails();
     thumbnailsRender(pictures);
     renderBigPicture(pictures);

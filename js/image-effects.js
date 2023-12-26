@@ -20,39 +20,39 @@ const Effect = {
 };
 
 const DEFAULT_FILTER = 'NONE';
-const image = document.querySelector('.img-upload__preview').querySelector('img');
-const sliderValue = document.querySelector('.effect-level__value');
-const sliderWrapper = document.querySelector('.img-upload__effect-level');
-const slider = document.querySelector('.effect-level__slider');
+const imageElement = document.querySelector('.img-upload__preview').querySelector('img');
+const sliderValueElement = document.querySelector('.effect-level__value');
+const sliderWrapperElement = document.querySelector('.img-upload__effect-level');
+const sliderElement = document.querySelector('.effect-level__slider');
 
 
 export const createEffectSlider = () =>{
-  sliderWrapper.classList.add('hidden');
-  noUiSlider.create(slider,  Effect[DEFAULT_FILTER].options);
+  sliderWrapperElement.classList.add('hidden');
+  noUiSlider.create(sliderElement,  Effect[DEFAULT_FILTER].options);
 };
 
 export const resetFilters = () => {
-  image.style.filter = Effect[DEFAULT_FILTER].name;
-  sliderWrapper.classList.add('hidden');
+  imageElement.style.filter = Effect[DEFAULT_FILTER].name;
+  sliderWrapperElement.classList.add('hidden');
 };
 
 const updateImagePreview = (effect) => {
-  image.removeAttribute('class');
-  image.classList.add(`effects__preview--${effect}`);
+  imageElement.removeAttribute('class');
+  imageElement.classList.add(`effects__preview--${effect}`);
 
-  slider.noUiSlider.updateOptions(Effect[effect].options);
-  slider.noUiSlider.on('update', () => {
-    sliderValue.value = slider.noUiSlider.get();
-    image.style.filter = `${Effect[effect].filter}(${sliderValue.value}${Effect[effect].unit})`;
+  sliderElement.noUiSlider.updateOptions(Effect[effect].options);
+  sliderElement.noUiSlider.on('update', () => {
+    sliderValueElement.value = sliderElement.noUiSlider.get();
+    imageElement.style.filter = `${Effect[effect].filter}(${sliderValueElement.value}${Effect[effect].unit})`;
   });
 };
 
 const updateSliderOptions = (effect) => {
-  slider.noUiSlider.updateOptions(Effect[effect].options);
+  sliderElement.noUiSlider.updateOptions(Effect[effect].options);
 };
 
 const showFilterPreview = (effect) => {
-  sliderWrapper.classList.remove('hidden');
+  sliderWrapperElement.classList.remove('hidden');
   updateImagePreview(effect);
   updateSliderOptions(effect);
 };
