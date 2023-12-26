@@ -28,9 +28,9 @@ function hideMessage() {
 }
 
 const showMessage = (message) => {
-  const button = message.querySelector('button');
+  const buttonElement = message.querySelector('button');
   document.body.append(message);
-  button.addEventListener('click', onButtonElementClick);
+  buttonElement.addEventListener('click', onButtonElementClick);
   document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
